@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'base.html' %}
+
+
+
+<link href="{% static 'learn/css/register.css' %}" rel="stylesheet">
+
+<!DOCTYPE html>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto mt-5">
+      <h2 class="text-center">Student Registration</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="student_id">Student ID</label>
+          <input type="text" class="form-control" id="student_id" name="student_id" pattern="[0-9]+" title="Please enter a valid integer for the student ID." required>
+        </div>
+        
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z\s]+" title="Please enter a valid name using only letters and spaces" required>
+          
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{5,}$" title="Please enter a valid password. It must be at least 5 characters long and contain both letters and numbers." required>
+          
+        </div>
+        
+        <div class="form-group">
+          <label for="department">Department</label>
+          <select class="form-control" id="department" name="department" required>
+            {% for department in departments %}
+              <option value="{{ department.department_id }}">{{ department.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="photo">Profile photo</label>
+          <input type="file" class="form-control-file" id="photo" name="photo" accept="image/jpeg, image/png">
+        </div>
+        
+        <script>
+          // Retrieve the file input element
+          var photoInput = document.getElementById("photo");
+        
+          // Add an event listener for file selection
+          photoInput.addEventListener("change", function() {
+            var file = photoInput.files[0]; // Get the selected file
+        
+            if (file) {
+              var fileType = file.type.toLowerCase();
+        
+              // Check if the selected file type is allowed
+              if (fileType === "image/jpeg" || fileType === "image/png") {
+                // Valid file type, continue with further processing if needed
+                console.log("Valid file type: " + fileType);
+              } else {
+                // Clear the selected file
+                photoInput.value = null;
+        
+                // Display an error message
+                alert("Only JPEG and PNG files are allowed for the profile photo.");
+              }
+            }
+          });
+        </script>
+        
+        
+        <div class="form-group">
+          <label for="courses">Courses</label>
+          {% for course in courses %}
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="courses" value="{{ course.code }}" id="course{{ course.code }}">
+              <label class="form-check-label" for="course{{ course.code }}">
+                {{ course.name }}
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <h3>{{msg}}</h3>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
