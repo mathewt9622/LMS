@@ -6,7 +6,7 @@ import quopri
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from learn.models import Announcement, Assignment, Course, Department, Faculty, Material, Student
+from learn.models import Announcement, Assignment, Course, Department, Faculty, Material,Student
 from learn.forms import AnnouncementForm, MaterialForm
 from django.contrib import messages
 
