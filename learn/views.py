@@ -1,8 +1,8 @@
 
 
 from pyexpat.errors import messages
-import queue
-import quopri
+from django.db.models import Q
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
@@ -517,8 +517,8 @@ def search(request):
     if request.session.get('student_id') or request.session.get('faculty_id'):
         if request.method == 'GET' and request.GET['q']:
             q = request.GET['q']
-            courses = Course.objects.filter(quopri(code__icontains=q) | Q(
-                name__icontains=q) | queue(faculty__name__icontains=q))
+            courses = Course.objects.filter(Q(code__icontains=q) | Q(
+                name__icontains=q) | Q(faculty__name__icontains=q))
 
             if request.session.get('student_id'):
                 student = Student.objects.get(
@@ -546,4 +546,5 @@ def search(request):
         else:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
-        return redirect('std_login')        
+        return redirect('std_login')
+        
